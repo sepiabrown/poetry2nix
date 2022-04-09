@@ -1176,7 +1176,7 @@ lib.composeManyExtensions [
       peewee = super.peewee.overridePythonAttrs (
         old:
         let
-          withPostgres = old.passthru.withPostgres;
+          withPostgres = old.passthru.args.withPostgres;
           withMysql = old.passthru.withMysql or false;
         in
         {
