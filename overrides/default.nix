@@ -1184,6 +1184,7 @@ lib.composeManyExtensions [
           propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
             ++ lib.optional withPostgres self.psycopg2
             ++ lib.optional withMysql self.mysql-connector;
+          inherit old;
         }
       );
 
