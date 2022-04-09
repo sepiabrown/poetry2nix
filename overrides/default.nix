@@ -1200,8 +1200,8 @@ lib.composeManyExtensions [
             ++ [ pkg-config self.pytest-runner ];
           buildInputs = with pkgs; (old.buildInputs or [ ])
             ++ [ freetype libjpeg zlib libtiff libwebp tcl lcms2 ]
-            ++ lib.optionals (lib.versionAtLeast old.version "7.1.0") [ libxcb ]
-            ++ lib.optionals (self.isPyPy) [ tk libX11 ];
+            ++ lib.optionals (lib.versionAtLeast old.version "7.1.0") [ xorg.libxcb ]
+            ++ lib.optionals (self.isPyPy) [ tk xorg.libX11 ];
         }
       );
 
