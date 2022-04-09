@@ -27,7 +27,7 @@
       rec {
         packages = {
           inherit (pkgs) poetry;
-          poetry2nix = pkgs.poetry2nix;#.cli;
+          poetry2nix = pkgs.poetry2nix.cli;
         };
 
         defaultPackage = packages.poetry2nix;
