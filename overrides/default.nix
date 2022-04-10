@@ -1075,43 +1075,48 @@ lib.composeManyExtensions [
           JPEG_DIR = pkgs.libjpeg.dev;
         }
       );
-
-      numpy = super.numpy.overridePythonAttrs (
-        old:
-        let
-          blas = old.blas;#passthru.args.blas or pkgs.openblasCompat;
-          blasImplementation = lib.nameFromURL blas.name "-";
-          cfg = pkgs.writeTextFile {
-            name = "site.cfg";
-            text = (
-              lib.generators.toINI
-                { }
-                {
-                  ${blasImplementation} = {
-                    include_dirs = "${blas}/include";
-                    library_dirs = "${blas}/lib";
-                  } // lib.optionalAttrs (blasImplementation == "mkl") {
-                    mkl_libs = "mkl_rt";
-                    lapack_libs = "";
-                  };
-                }
-            );
-          };
-        in
-        {
-          test_old = old;
-          nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.gfortran ];
-          buildInputs = (old.buildInputs or [ ]) ++ [ blas ];
-          enableParallelBuilding = true;
-          preBuild = ''
-            ln -s ${cfg} site.cfg
-          '';
-          passthru = old.passthru // {
-            blas = blas;
-            inherit blasImplementation cfg;
-          };
-        }
-      );
+      
+      #numpy = super.numpy.override { 
+      #  blas = self.blas.override {
+      #    blasProvider = pkgs.mkl;
+      #  };
+      #};
+      #numpy = super.numpy.overridePythonAttrs (
+      #  old:
+      #  let
+      #    blas = old.blas;#passthru.args.blas or pkgs.openblasCompat;
+      #    blasImplementation = lib.nameFromURL blas.name "-";
+      #    cfg = pkgs.writeTextFile {
+      #      name = "site.cfg";
+      #      text = (
+      #        lib.generators.toINI
+      #          { }
+      #          {
+      #            ${blasImplementation} = {
+      #              include_dirs = "${blas}/include";
+      #              library_dirs = "${blas}/lib";
+      #            } // lib.optionalAttrs (blasImplementation == "mkl") {
+      #              mkl_libs = "mkl_rt";
+      #              lapack_libs = "";
+      #            };
+      #          }
+      #      );
+      #    };
+      #  in
+      #  {
+      #    test_old = old;
+      #    nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.gfortran ];
+      #    buildInputs = (old.buildInputs or [ ]) ++ [ blas ];
+      #    enableParallelBuilding = true;
+      #    preBuild = ''
+      #      ln -s ${cfg} site.cfg
+      #    '';
+      #    passthru = old.passthru // {
+      #      blas = blas;
+      #      inherit blasImplementation cfg;
+      #    };
+      #  }
+      #);
 
       open3d = super.open3d.overridePythonAttrs (old: {
         buildInputs = (old.buildInputs or [ ]) ++ (with pkgs; [
