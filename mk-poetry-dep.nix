@@ -22,6 +22,7 @@
 pythonPackages.callPackage
   (
     { preferWheel ? preferWheels
+    , test ? false
     , ...
     }@args:
     let
