@@ -206,4 +206,4 @@ pythonPackages.callPackage
           };
     }
   )
-{ }
+{ test = true; }
