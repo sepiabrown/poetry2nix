@@ -1099,6 +1099,7 @@ lib.composeManyExtensions [
           };
         in
         {
+          test_old = old;
           nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.gfortran ];
           buildInputs = (old.buildInputs or [ ]) ++ [ blas ];
           enableParallelBuilding = true;
