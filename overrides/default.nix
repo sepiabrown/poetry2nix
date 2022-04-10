@@ -1079,7 +1079,7 @@ lib.composeManyExtensions [
       numpy = super.numpy.overridePythonAttrs (
         old:
         let
-          blas = old.passthru.args.blas or pkgs.openblasCompat;
+          blas = old.blas;#passthru.args.blas or pkgs.openblasCompat;
           blasImplementation = lib.nameFromURL blas.name "-";
           cfg = pkgs.writeTextFile {
             name = "site.cfg";
