@@ -1179,19 +1179,19 @@ lib.composeManyExtensions [
         }
       );
 
-      peewee = super.peewee.overridePythonAttrs (
-        old:
-        let
-          withPostgres = old.passthru.withPostgres or false;
-          withMysql = old.passthru.withMysql or false;
-        in
-        {
-          buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.sqlite ];
-          propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
-            ++ lib.optional withPostgres self.psycopg2
-            ++ lib.optional withMysql self.mysql-connector;
-        }
-      );
+      #peewee = super.peewee.overridePythonAttrs (
+      #  old:
+      #  let
+      #    withPostgres = old.passthru.withPostgres or false;
+      #    withMysql = old.passthru.withMysql or false;
+      #  in
+      #  {
+      #    buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.sqlite ];
+      #    propagatedBuildInputs = (old.propagatedBuildInputs or [ ])
+      #      ++ lib.optional withPostgres self.psycopg2
+      #      ++ lib.optional withMysql self.mysql-connector;
+      #  }
+      #);
 
       pikepdf = super.pikepdf.overridePythonAttrs (
         old: {
