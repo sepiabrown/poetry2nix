@@ -154,6 +154,7 @@ pythonPackages.callPackage
         broken = ! isCompatible (poetryLib.getPythonVersion python) python-versions;
         license = [ ];
         inherit (python.meta) platforms;
+        inherit args;
       };
 
       passthru = {
