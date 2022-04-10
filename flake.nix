@@ -30,6 +30,8 @@
           poetry2nix = pkgs.poetry2nix.cli;
         };
 
+        poetry2nix = pkgs.poetry2nix;
+
         defaultPackage = packages.poetry2nix;
 
         apps = {
