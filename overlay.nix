@@ -1,7 +1,7 @@
 final: prev: {
 
-  poetry2nix = import ./default.nix { pkgs = final; poetry = final.poetry; };
+  poetry2nix = import ./default.nix { pkgs = prev; poetry = prev.poetry; };
 
-  poetry = prev.callPackage ./pkgs/poetry { python = final.python3; };
+  poetry = prev.callPackage ./pkgs/poetry { python = prev.python3; };
 
 }
