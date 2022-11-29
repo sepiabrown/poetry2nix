@@ -1496,7 +1496,7 @@ lib.composeManyExtensions [
             ++ [ freetype libjpeg zlib libtiff libwebp tcl lcms2 ]
             ++ lib.optionals (lib.versionAtLeast old.version "7.1.0") [ xorg.libxcb ]
             ++ lib.optionals (self.isPyPy) [ tk xorg.libX11 ];
-          preConfigure = lib.optional (old.format != "wheel") preConfigure;
+          preConfigure = lib.optional ((old.format or "") != "wheel") preConfigure;
         }
       );
 
