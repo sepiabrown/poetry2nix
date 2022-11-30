@@ -109,7 +109,7 @@ pythonPackages.callPackage
       ]
       ++ lib.optional (!isSource && (getManyLinuxDeps fileInfo.name).str != null) autoPatchelfHook
       ++ lib.optionals (format == "wheel" && !(lib.hasPrefix "tensorflow-gpu" name) ) [
-        (lib.warnIf !(lib.hasPrefix "tensorflow-gpu" name) ("${name} not tensorflow-gpu mkpoetrydep") (hooks.wheelUnpackHook))
+        (lib.warnIf (! (lib.hasPrefix "tensorflow-gpu" name)) ("${name} not tensorflow-gpu mkpoetrydep") (hooks.wheelUnpackHook))
         #hooks.wheelUnpackHook
         pythonPackages.pipInstallHook
         pythonPackages.setuptools
