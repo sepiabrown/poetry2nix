@@ -108,8 +108,8 @@ pythonPackages.callPackage
         hooks.poetry2nixFixupHook
       ]
       ++ lib.optional (!isSource && (getManyLinuxDeps fileInfo.name).str != null) autoPatchelfHook
-      ++ lib.optionals (format == "wheel" && name != (lib.warnIf (name == "quarto") ("${name} quarto mkpoetrydep") "tensorflow-gpu") ) [
-        (lib.warnIf (name != "tensorflow-gpu") ("${name} not tensorflow-gpu mkpoetrydep") (hooks.wheelUnpackHook))
+      ++ lib.optionals (format == "wheel" && ! (lib.hasPrefix "tensorflow-gpu" name) ) [
+        (lib.warnIf ! (lib.hasPrefix "tensorflow-gpu" name) ("${name} not tensorflow-gpu mkpoetrydep") (hooks.wheelUnpackHook))
         #hooks.wheelUnpackHook
         pythonPackages.pipInstallHook
         pythonPackages.setuptools
