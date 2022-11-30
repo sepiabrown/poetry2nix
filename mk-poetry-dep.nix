@@ -109,7 +109,7 @@ pythonPackages.callPackage
       ]
       ++ lib.optional (!isSource && (getManyLinuxDeps fileInfo.name).str != null) autoPatchelfHook
       ++ lib.optionals (format == "wheel") [
-        (lib.warnIf ((name or "") == "tensorflow-gpu") ("${name or ""} forces format to wheel mkpoetrydep") (hooks.wheelUnpackHook))
+        (lib.warnIf (name == "tensorflow-gpu") ("${name} forces format to wheel mkpoetrydep") (hooks.wheelUnpackHook))
         #hooks.wheelUnpackHook
         pythonPackages.pipInstallHook
         pythonPackages.setuptools
