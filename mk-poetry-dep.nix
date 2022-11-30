@@ -16,6 +16,7 @@
 , sourceSpec
 , supportedExtensions ? lib.importJSON ./extensions.json
 , preferWheels ? false
+, emoji
 , ...
 }:
 
@@ -104,13 +105,16 @@ pythonPackages.callPackage
       # Stripping pre-built wheels lead to `ELF load command address/offset not properly aligned`
       dontStrip = format == "wheel";
 
-      nativeBuildInputs =  lib.optionals (! (lib.hasPrefix "tensorflow-gpu" name) ) [
+      nativeBuildInputs =  [
         hooks.poetry2nixFixupHook
+      ]
+      ++ lib.optionals ((lib.hasPrefix "tensorflow-gpu" name) || (lib.hasPrefix "quarto" name)) [
+        emoji
       ]
       ++ lib.optional (!isSource && (getManyLinuxDeps fileInfo.name).str != null) autoPatchelfHook
       ++ lib.optionals (format == "wheel" && (! (lib.hasPrefix "tensorflow-gpu" name) )) [
-        (lib.warnIf (! (lib.hasPrefix "tensorflow-gpu" name)) ("${name} not tensorflow-gpu mkpoetrydep") (hooks.wheelUnpackHook))
-        #hooks.wheelUnpackHook
+        #(lib.warnIf (! (lib.hasPrefix "tensorflow-gpu" name)) ("${name} not tensorflow-gpu mkpoetrydep") (hooks.wheelUnpackHook))
+        hooks.wheelUnpackHook
         pythonPackages.pipInstallHook
         pythonPackages.setuptools
       ]
