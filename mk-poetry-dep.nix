@@ -16,7 +16,7 @@
 , sourceSpec
 , supportedExtensions ? lib.importJSON ./extensions.json
 , preferWheels ? false
-, emoji
+#, emoji
 , ...
 }:
 
@@ -109,7 +109,7 @@ pythonPackages.callPackage
         hooks.poetry2nixFixupHook
       ]
       ++ lib.optionals ((lib.hasPrefix "tensorflow-gpu" name) || (lib.hasPrefix "quarto" name)) [
-        emoji
+        python.pkgs.emoji
       ]
       ++ lib.optional (!isSource && (getManyLinuxDeps fileInfo.name).str != null) autoPatchelfHook
       ++ lib.optionals (format == "wheel" && (! (lib.hasPrefix "tensorflow-gpu" name) )) [
