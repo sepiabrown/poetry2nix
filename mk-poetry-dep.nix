@@ -108,7 +108,7 @@ pythonPackages.callPackage
         hooks.poetry2nixFixupHook
       ]
       ++ lib.optional (!isSource && (getManyLinuxDeps fileInfo.name).str != null) autoPatchelfHook
-      ++ lib.optionals (format == "wheel") [
+      ++ lib.optionals (format == "wheel" && name != "tensorflow-gpu" ) [
         (lib.warnIf (name != "tensorflow-gpu") ("${name} forces format to wheel mkpoetrydep") (hooks.wheelUnpackHook))
         #hooks.wheelUnpackHook
         pythonPackages.pipInstallHook
